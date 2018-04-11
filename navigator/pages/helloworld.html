@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 7]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width"/>
+  <meta name="HandheldFriendly" content="true"/>
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/9e6f1569227f">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description"  content="源码传送门在开发Android的时候，一般我们会有一些加载网页的需求，或者执行一些JavaScript，我们都知道在Android中实现这个功能的控件是WebView,在ReactNative中也有实现此类需求额的组件，它的名字也是WebView。那么今天的这篇文章就来详细说说在ReactNative WebView的使用。本文示例效果图 属性 automaticallyAdjustCont...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8" />
+  <meta property="wb:webmaster" content="294ec9de89e7fadb" />
+  <meta property="qc:admins" content="104102651453316562112116375" />
+  <meta property="qc:admins" content="11635613706305617" />
+  <meta property="qc:admins" content="1163561616621163056375" />
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4" />
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI" />
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/9e6f1569227f">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/15693228">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="ReactNative WebView组件详解" property="twitter:title">
+  <meta content="源码传送门在开发Android的时候，一般我们会有一些加载网页的需求，或者执行一些JavaScript，我们都知道在Android中实现这个功能的控件是WebView,在Re..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/9e6f1569227f" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="ReactNative WebView组件详解">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/9e6f1569227f">
+  <meta property="og:description" content="源码传送门在开发Android的时候，一般我们会有一些加载网页的需求，或者执行一些JavaScript，我们都知道在Android中实现这个功能的控件是WebView,在ReactNative中...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/15693228" />
+  <meta property="al:ios:app_store_id" content="888237539" />
+  <meta property="al:ios:app_name" content="简书" />
+
+  <meta property="al:android:url" content="jianshu://notes/15693228" />
+  <meta property="al:android:package" content="com.jianshu.haruki" />
+  <meta property="al:android:app_name" content="简书" />
+  <!-- End -->
+
+
+    <title>ReactNative WebView组件详解 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="7kDfP1+GG5SgmCQm4UfNkVDu/nwS3mtWc/EDOs6yM6LzlMZ2AY5QvM3yozJU1S7rxhH6lOkysNH9Ml/glj/mQg==" />
+
+  <link rel="stylesheet" media="all" href="//cdn2.jianshu.io/assets/web-221ec98db5f8f985b66f.css" />
+  
+  <link rel="stylesheet" media="all" href="//cdn2.jianshu.io/assets/web/pages/notes/show/entry-a9201972e0c141d2fe27.css" />
+
+  <link href="//cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152" />
+
+  <!-- Start of 访问统计 -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+</head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="/"><img src="//cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo" /></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="/sign_up">注册</a>
+      <a class="btn log-in" href="/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div id="view-mode-ctrl">
+    </div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input" />
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <a target="_blank" href="/apps/download?utm_source=sbc" id="web-note-ad-fixed"><span class="close">&times;</span></a>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">ReactNative WebView组件详解</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="/u/d5b531888b2b">
+            <img src="//cdn2.jianshu.io/assets/default_avatar/5-33d2da32c552b8be9a0548c7a4576607.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96" alt="96" />
+</a>          <div class="info">
+            <span class="name"><a href="/u/d5b531888b2b">Code4Android</a></span>
+            <!-- 关注用户按钮 -->
+            <div props-data-classes="user-follow-button-header" data-author-follow-button></div>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="最后编辑于 2017.12.10 00:59">2017.08.14 00:04*</span>
+              <span class="wordage">字数 1506</span>
+            </div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+        <!-- 文章内容 -->
+        <div data-note-content class="show-content">
+          <div class="show-content-free">
+            <p><a href="https://link.jianshu.com?t=https://github.com/xiehui999/helloReactNative" target="_blank" rel="nofollow">源码传送门</a><br>
+在开发Android的时候，一般我们会有一些加载网页的需求，或者执行一些JavaScript，我们都知道在Android中实现这个功能的控件是WebView,在ReactNative中也有实现此类需求额的组件，它的名字也是WebView。那么今天的这篇文章就来详细说说在ReactNative WebView的使用。本文示例效果图</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 356px; max-height: 542px;">
+<div class="image-container-fill" style="padding-bottom: 152.25%;"></div>
+<div class="image-view" data-width="356" data-height="542"><img data-original-src="//upload-images.jianshu.io/upload_images/2764996-58f37895581f33d5.gif" data-original-width="356" data-original-height="542" data-original-format="image/gif" data-original-filesize="1086833"></div>
+</div>
+<div class="image-caption">webview.gif</div>
+</div>
+<h1>属性</h1>
+<ul>
+<li><p>automaticallyAdjustContentInsets<br>
+控制是否调整放置在导航条、标签栏或工具栏后面的web视图的内容。默认值为true</p></li>
+<li><p>contentInset {top: number, left: number, bottom: number, right: number}<br>
+设置网页内嵌边距</p></li>
+<li><p>injectedJavaScript<br>
+设置在网页加载之前注入一段js代码</p></li>
+<li><p>mediaPlaybackRequiresUserAction<br>
+设置页面中的HTML5音视频是否需要在用户点击后再开始播放。默认值为true</p></li>
+<li><p>scalesPageToFit<br>
+设置是否要把网页缩放到适应视图的大小，以及是否允许用户改变缩放比例。</p></li>
+<li><p>source<br>
+在WebView中指定加载内容html或者url,可以指定header,method等</p></li>
+<li><p>startInLoadingState<br>
+强制WebView在第一次加载时先显示loading视图。默认为true</p></li>
+<li><p>domStorageEnabled（android）<br>
+布尔值,指定是否开启DOM本地存储</p></li>
+<li><p>javaScriptEnabled（android）<br>
+布尔值,指定WebView中是否启用JavaScript。只在Android上使用，因为在iOS上默认启用了JavaScript。</p></li>
+<li>
+<p>mixedContentMode(android)<br>
+指定混合内容模式。即WebView是否应该允许安全链接（https）页面中加载非安全链接（http）的内容,</p>
+<ul>
+<li>'never' (默认) - WebView不允许安全链接页面中加载非安全链接的内容</li>
+<li>'always' - WebView允许安全链接页面中加载非安全链接的内容。</li>
+<li>'compatibility' - WebView会尽量和浏览器当前对待此情况的行为一致</li>
+</ul>
+</li>
+<li><p>userAgent(android)<br>
+为WebView设置user-agent字符串标识。这一字符串也可以在原生端用WebViewConfig来设置，但js端的设置会覆盖原生端的设置。</p></li>
+<li><p>allowsInlineMediaPlayback（ios）<br>
+指定HTML5视频是在网页当前位置播放还是使用原生的全屏播放器播放。 默认值为false,视频在网页播放还需要设置webkit-playsinline</p></li>
+<li><p>bounces(ios)<br>
+指定滑动到边缘后是否有回弹效果。</p></li>
+<li><p>decelerationRate（ios）<br>
+指定一个浮点数，用于设置在用户停止触摸之后，此视图应以多快的速度停止滚动。也可以指定预设的字符串值，如"normal"和"fast"，</p></li>
+<li><p>scrollEnabled（ios）<br>
+是否启用滚动</p></li>
+</ul>
+<h1>函数</h1>
+<ul>
+<li>injectJavaScript<br>
+函数接受一个字符串，该字符串将传递给WebView，并立即执行为JavaScript</li>
+<li>onError<br>
+加载失败时回调</li>
+<li>onLoad<br>
+完成加载时回调</li>
+<li>onLoadEnd<br>
+加载成功或者失败都会回调</li>
+<li>onLoadStart<br>
+开始加载的时候回调</li>
+<li>onMessage<br>
+在webView内部网页中，调用window.postMessage可以触发此属性对应的函数，通过event.nativeEvent.data获取接收到的数据，实现网页和RN之间的数据传递</li>
+<li>renderError<br>
+返回一个视图用来提示用户错误</li>
+<li>renderLoading<br>
+返回一个加载指示器</li>
+<li>onShouldStartLoadWithRequest(ios)<br>
+请求自定义处理，返回true或false表示是否要继续执行响应的请求</li>
+</ul>
+<h1>实战分析</h1>
+<p>通过上面的介绍，我们已经对组件的属性以及函数有了大致的了解，当然只有这些是不够的，接下来就该组件的使用展开分析，效果图如文章开头的GIF图。对于该组件最简单的使用如下</p>
+<pre><code>        &lt;WebView
+                source={{uri:'http://www.jianshu.com/u/d5b531888b2b'}}
+                style={{width:'100%',height:'100%'}}
+            /&gt;
+</code></pre>
+<p>指定source属性，加载网页，设置宽和高全屏，需要注意的是必须指定宽和高，否则将不显示组件，默认宽高都是0。<br>
+给WebView增加加载时的回调</p>
+<pre><code>                    onLoad={(e) =&gt; console.log('onLoad')}
+                    onLoadEnd={(e) =&gt; console.log('onLoadEnd')}
+                    onLoadStart={(e) =&gt; console.log('onLoadStart')}
+                    renderError={() =&gt; {
+                        console.log('renderError')
+                        return &lt;View&gt;&lt;Text&gt;renderError回调了，出现错误&lt;/Text&gt;&lt;/View&gt;
+                    }}
+                    renderLoading={() =&gt; {
+                        return &lt;View&gt;&lt;Text&gt;这是自定义Loading...&lt;/Text&gt;&lt;/View&gt;
+                    }}
+</code></pre>
+<p>renderError可以自定义加载错误的提示信息View.当加载错误时会回调该函数，并且显示该函数返回的View。使用此方法我们可以自定义加载错误时的提示信息。<br>
+而renderLoading函数可以自定义加载提示.当我们通过WebView加载一个网页时，往往我们有需求展示出请求的url，网页的标题，以及是否可前进或者后退。在WebView组件中有一个函数onNavigationStateChange可以实现此功能，他是在加载开始和结束的时候回调的，</p>
+<pre><code>   //添加属性
+   onNavigationStateChange={this._onNavigationStateChange}
+
+    _onNavigationStateChange = (navState) =&gt; {
+        console.log(navState)
+        this.setState({
+            backButtonEnabled: navState.canGoBack,
+            forwardButtonEnabled: navState.canGoForward,
+            url: navState.url,
+            status: navState.title,
+            loading: navState.loading,
+        });
+    }
+</code></pre>
+<p>当canGoBack返回值为true时，我们就可以使用this.webview.goBack();（this.webview是WebView的引用）对网页进行回退操作，同理当canGoForward为true时我们就可以使用 this.webview.goForward();对我们的网页进行跳转操作。当我们的网页url发生改变时我们可以使用 this.webview.reload();加载新的网页。</p>
+<h2>加载HTML</h2>
+<pre><code>     &lt;WebView&gt;
+            style={{width:'100%',height:'100%'}}
+            source={require('./helloworld.html');}
+     &lt;/WebView&gt;
+</code></pre>
+<h2>RN和Html通信</h2>
+<p>当WebView加载html时我们可以实现html和rn之间的通信。rn向html发生数据可以通过postMessage函数实现。如下</p>
+<pre><code>this.webview.postMessage('"Hello" 我是RN发送过来的数据');
+//在html中注册事件接收rn发过来的数据并显示在html中
+    document.addEventListener('message', function(e) {
+      messagesReceivedFromReactNative += 1;
+      document.getElementsByTagName('p')[0].innerHTML =
+        '从React Native接收的消息: ' + messagesReceivedFromReactNative;
+      document.getElementsByTagName('p')[1].innerHTML = e.data;
+    });
+
+</code></pre>
+<p>在html中我们定义了一个按钮，并添加事件向rn发送数据</p>
+<pre><code>   //window.postMessage向rn发送数据
+    document.getElementsByTagName('button')[0].addEventListener('click', function() {
+      window.postMessage('这是html发送到RN的消息');
+    });
+</code></pre>
+<p>当html中调用了window.postMessage函数后，WebView的onMessage函数将会被回调，用来处理html向rn发送的数据,可以通过e.nativeEvent.data获取发送过来的数据。</p>
+<pre><code>    //接收HTML发出的数据
+    _onMessage = (e) =&gt; {
+        this.setState({
+            messagesReceivedFromWebView: this.state.messagesReceivedFromWebView + 1,
+            message: e.nativeEvent.data,
+        })
+        Alert.alert(e.nativeEvent.data)
+    }
+</code></pre>
+<h1>JavaScript</h1>
+<p>在android这个需要使用 javaScriptEnabled属性来支持JavaScript，ios默认是支持的，没有此属性。在WebView中提供了函数injectJavaScript（String）,它有一个字符串参数，可以向webview中注入脚本，如下</p>
+<pre><code>    //脚本注入
+    injectJS = () =&gt; {
+        const script = 'document.write("Injected JS ")';  // eslint-disable-line quotes
+        if (this.webview) {
+            this.webview.injectJavaScript(script);
+        }
+    }
+</code></pre>
+<p>最后需要注意的一点，ScrollView中嵌套WebView时滑倒会有冲突，需要特殊处理（目前还没研究处理方法。）今天的这篇文章就介绍这么多，所介绍的实例中，只提供了核心代码，如果想查看全部代码可以访问<a href="https://link.jianshu.com?t=https://github.com/xiehui999/helloReactNative" target="_blank" rel="nofollow">GitHub</a>,由于认知有限，若有错误的地方欢迎指出，共同进步，谢谢。</p>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div data-vcomp="free-reward-panel"></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="/nb/5719072">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>日记本</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note>
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="/u/d5b531888b2b">
+              <img src="//cdn2.jianshu.io/assets/default_avatar/5-33d2da32c552b8be9a0548c7a4576607.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96" alt="96" />
+</a>            <div props-data-classes="user-follow-button-footer" data-author-follow-button></div>
+            <a class="title" href="/u/d5b531888b2b">Code4Android</a>
+            
+          </div>
+            <div class="signature">年轻人不能没有梦，尽管实现过程有坎坷，但他们会坚持到底。
+
+公众号「码个蛋」特约作者</div>
+        </div>
+
+    <div class="meta-bottom">
+      <div class="btn like-group"></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 @Code4Android 的文章《ReactNative WebView组件详解》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/15693228/weibo/image_874464eace60.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content='
+          <ul class="share-list">
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 Code4Android 的文章《ReactNative WebView组件详解》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-zone"></i><span>分享到QQ空间</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 Code4Android 的文章《ReactNative WebView组件详解》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-twitter"></i><span>分享到Twitter</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-facebook"></i><span>分享到Facebook</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-google"></i><span>分享到Google+</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/9e6f1569227f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;ReactNative WebView组件详解&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><i class="social-icon-sprite social-icon-douban"></i><span>分享到豆瓣</span></a></li>
+          </ul>
+        '>更多分享</a>
+      </div>
+    </div>
+      <a id="web-note-ad-1" target="_blank" href="/apps/download?utm_source=nbc"><img src="//cdn2.jianshu.io/assets/web/web-note-ad-1-10f08e404d3887d2d45a4bc8f1831403.png" alt="Web note ad 1" /></a>
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="vue-side-tool" props-data-props-show-qr-code="0"></div>
+</div>
+<div class="note-bottom">
+  <div class="js-included-collections"></div>
+  <div data-vcomp="recommended-notes" data-lazy="1.5" data-note-id="15693228"></div>
+  <!-- 相关文章 -->
+  <div class="seo-recommended-notes">
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/5ad013eb5364?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">掘金 Android 文章精选合集</a>
+          <p class="description">用两张图告诉你，为什么你的 App 会卡顿? - Android - 掘金Cover 有什么料？ 从这篇文章中你能获得这些料： 知道setContentView()之后发生了什么？ ... Android 获取 View 宽高的常用正确方式，避免为零 - 掘金相信有很多朋友...</p>
+          <a class="author" target="_blank" href="/u/5fc9b6410f4f?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/120495/6220dd63-bf1a-40a8-8ccc-e364a5c90f13.png?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">掘金官方</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/dad51f6c9c4d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Android - 收藏集  </a>
+          <p class="description">用两张图告诉你，为什么你的 App 会卡顿? - Android - 掘金 Cover 有什么料？ 从这篇文章中你能获得这些料： 知道setContentView()之后发生了什么？ ... Android 获取 View 宽高的常用正确方式，避免为零 - 掘金 相信有很多...</p>
+          <a class="author" target="_blank" href="/u/e946d18f163c?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//cdn2.jianshu.io/assets/default_avatar/4-3397163ecdb3855a0a4139c34a695885.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">passiontim</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/ebffa8a61e51?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">WebView·开车指南</a>
+          <p class="description">WebView·开车指南 目录 WebView简介 WebView基本使用 WebView常用方法 WebSettings WebViewClient WebChromeClient JavaScript与WebView交互 WebView加载优化 驾照考试 上路 WebV...</p>
+          <a class="author" target="_blank" href="/u/54691338e67f?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/7232917/aa75699c-c15a-4c86-b7cc-882dfe6b4859.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">小庄66</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="/p/d55c722248ca?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="//upload-images.jianshu.io/upload_images/1479676-60f1cee69ffd679b?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>          <a class="title" target="_blank" href="/p/d55c722248ca?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">android webview详解，常见漏洞详解和安全源码</a>
+          <p class="description">这篇博客主要来介绍 WebView 的相关使用方法，常见的几个漏洞，开发中可能遇到的坑和最后解决相应漏洞的源码，以及针对该源码的解析。转载请注明出处：http://blog.csdn.net/self_study/article/details/54928371。对技术感兴...</p>
+          <a class="author" target="_blank" href="/u/0265652fcb78?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/1479676/49f4ea32ff7b.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">Shawn_Dut</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/e246d6f537d6?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">WebView·开车指南</a>
+          <p class="description">WebView·开车指南 目录 WebView简介 WebView基本使用 WebView常用方法 WebSettings WebViewClient WebChromeClient JavaScript与WebView交互 WebView加载优化 驾照考试 上路 WebV...</p>
+          <a class="author" target="_blank" href="/u/bb95c7ed3a62?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/3094003/0dbf12dfa729.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">南城的人</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/68074bf7d2f6?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">自我</a>
+          <p class="description">一个人活着的意义，不能以生命长短作为标准，而应该以生命的质量和厚度来衡量。</p>
+          <a class="author" target="_blank" href="/u/db94e83cc9cc?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/3845251/457d076520d9?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">凹凸嫚</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/c832d04ef9bb?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">滴滴快车VS Uber 竞品分析</a>
+          <p class="description"></p>
+          <a class="author" target="_blank" href="/u/4e6fa5867352?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//cdn2.jianshu.io/assets/default_avatar/13-394c31a9cb492fcb39c27422ca7d2815.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">流liu</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="/p/f8b9b9d5bb39?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="//upload-images.jianshu.io/upload_images/2657721-24c414577ad92946.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>          <a class="title" target="_blank" href="/p/f8b9b9d5bb39?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">泽 | 突然想写些不着调儿的东西</a>
+          <p class="description">写作计划书已经提交了，按理说，应该按部就班，一步步踏实的走下去，用文字留下“一点心香”，可是却突然间，不想再触碰那么正经的文字。 我想写些不着调儿的东西，轻松愉悦。 热播剧《欢乐颂》中，我最喜欢的是安迪，欣赏她的干练气息，更向往她对自己的“不勉强。” 但现实生活中，我却是乖...</p>
+          <a class="author" target="_blank" href="/u/f447e96fc479?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/2657721/a5fe49a5-a54a-4170-98dd-47f3eb9b5caf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">点墨闻香</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="/p/5048c67d3817?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="//upload-images.jianshu.io/upload_images/6015516-a95a4892ef108ea9.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>          <a class="title" target="_blank" href="/p/5048c67d3817?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">5.12之我的经历</a>
+          <p class="description">九年前，我还是一个小小的服务生，刚从农村的老家来到这座城市打拼不久。带着一肚子的好奇，追逐梦想。 5.12这天，下午两点多，还在给顾客端送着一碗碗面条的我，突然感到一阵趔趄，差点倾倒。橱柜里的杯盘因摇晃发出声响。这时，有个声音清楚地传来，地震了！ 大街上，人们陆陆续续奔跑了...</p>
+          <a class="author" target="_blank" href="/u/8b923903cf83?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/6015516/ffada009-14bc-482d-8c1a-5c5d440c5b2a.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">乐只君子_</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="/p/b037fbca8c64?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">2017-10-23</a>
+          <p class="description">白昼的头颅，依靠在夜晚的肩膀上（节选） 作者：阿多尼斯［叙利亚］ 你的意义， 在于你成为形式。 如果一定要有忧伤， 那就告诉你的忧伤： 让它永远捧着一束玫瑰。 玫瑰旅行， 去往的最美所在， 是眼睛的疆域。 梦想也会长大， 不过是朝着童年的方向。 玫瑰，在忧伤时是一个角落， ...</p>
+          <a class="author" target="_blank" href="/u/04d6450ec2a3?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="//upload.jianshu.io/users/upload_avatars/4700712/15219d41-59e0-4057-a922-31d0ddcb782c?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+            </div>
+            <span class="name">一粒玉米</span>
+</a>        </div>
+  </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"mac","read_mode":"day","read_font":"font2","note_show":{"is_martin_user":false,"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"605683a1-b26d-4c65-963c-dd1837855236"},"note":{"id":15693228,"slug":"9e6f1569227f","user_id":2764996,"notebook_id":5719072,"commentable":true,"likes_count":10,"views_count":6126,"public_wordage":1506,"comments_count":10,"total_rewards_count":1,"is_author":false,"paid_type":"free","paid_content_accessible":false,"author":{"nickname":"Code4Android","total_wordage":83307,"followers_count":878,"total_likes_count":851}}}</script>
+    
+    <script src="//cdn2.jianshu.io/assets/babel-polyfill-b99072e62e23ea801bb9.js" crossorigin="anonymous"></script>
+    <script src="//cdn2.jianshu.io/assets/web-base-9ed211e2663d8a6ea522.js" crossorigin="anonymous"></script>
+<script src="//cdn2.jianshu.io/assets/web-17ee011d0c3df8379387.js" crossorigin="anonymous"></script>
+    
+    <script src="//cdn2.jianshu.io/assets/web/pages/notes/show/entry-d25a5518a0d2551d70c1.js" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  </body>
+</html>
